@@ -100,11 +100,15 @@
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $user->first_name }} {{ $user->last_name }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">{{ $user->department->name }}</td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <form method="POST" action="{{ route('user.delete', $user->id) }}">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
-                                                </form>
+                                                <div class="flex space-x-2">
+                                                    <a href="{{ route('users.records', $user) }}" class="text-green-600 hover:text-green-900">Records</a>
+
+                                                    <form method="POST" action="{{ route('user.delete', $user->id) }}">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="text-red-600 hover:text-red-900">Delete</button>
+                                                    </form>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endif

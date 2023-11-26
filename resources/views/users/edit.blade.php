@@ -12,7 +12,6 @@
                     @csrf
                     @method('put')
                     <div class="grid grid-cols-2 sm:grid-cols-2 gap-8">
-                        <!-- Personal Information -->
                         <div>
                             <h3 class="text-lg font-medium text-gray-700 mb-2">PERSONAL INFORMATION</h3>
                             <div class="grid grid-cols-2 gap-4">

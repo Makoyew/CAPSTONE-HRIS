@@ -14,7 +14,8 @@ use App\Notifications\LeaveRequestRejected;
 use App\Notifications\LeaveRequestCreated;
 use App\Notifications\SupervisorApprovedLeaveRequest;
 use App\Notifications\LeaveRequestEndedNotification;
-
+use App\Events\UserLog;
+use App\Listeners\LogListener;
 
 class LeaveRequestController extends Controller
 {
@@ -64,7 +65,7 @@ class LeaveRequestController extends Controller
     $pendingRequest = $user->leaveRequests()->whereIn('status', ['pending_supervisor', 'pending_admin'])->exists();
 
     if ($pendingRequest) {
-        return redirect()->route('dashboard')->with('error', 'You have a pending or approved leave request. You cannot submit another one until it is resolved.');
+        return redirect()->route('dashboard')->with('error', 'You have an existing pending leave request. You cannot submit another one until it is resolved.');
     }
 
     $request->validate([
@@ -78,7 +79,7 @@ class LeaveRequestController extends Controller
     $reason = implode(', ', $request->input('reason'));
 
 
-    LeaveRequest::create([
+    $leaveRequest = LeaveRequest::create([
         'user_id' => $user->id,
         'start_date' => $request->input('start_date'),
         'end_date' => $request->input('end_date'),
@@ -100,11 +101,11 @@ class LeaveRequestController extends Controller
         }
     }
 
+    $log_entry = Auth::user()->name . $leaveRequest->user->first_name . " " . $leaveRequest->user->surname . " added a new leave request ";
+    event(new UserLog($log_entry));
+
     return redirect()->route('dashboard')->with('success', 'Leave request submitted successfully.');
 }
-
-
-
 
     public function show(LeaveRequest $leaveRequest)
 {

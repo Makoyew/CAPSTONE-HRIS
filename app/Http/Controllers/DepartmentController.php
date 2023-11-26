@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Department;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use App\Events\UserLog;
+use App\Listeners\LogListener;
+use Illuminate\Support\Facades\Auth;
 
 class DepartmentController extends Controller
 {
@@ -22,13 +25,18 @@ class DepartmentController extends Controller
 
     public function store(Request $request)
     {
+        $user = Auth::user();
+
         $request->validate([
             'name' => 'required|string|unique:departments|max:255',
         ]);
 
-        Department::create([
+        $department = Department::create([
             'name' => $request->input('name'),
         ]);
+
+        $log_entry = Auth::user()->name . $user->role . " added a department " . $department->name;
+        event(new UserLog($log_entry));
 
         return redirect()->route('departments.index')->with('success', 'Department created successfully.');
     }
@@ -58,12 +66,17 @@ class DepartmentController extends Controller
 
     public function destroy(Department $department)
     {
+        $user = Auth::user();
 
         if ($department->users()->exists()) {
             return redirect()->route('departments.index')->with('error', 'Cannot delete the department because it is associated with employees.');
         }
 
         $department->delete();
+
+        $log_entry = $user->name . $user->role . " deleted a department " . $department->name;
+        event(new UserLog($log_entry));
+
         return redirect()->route('departments.index')->with('success', 'Department deleted successfully.');
     }
 }

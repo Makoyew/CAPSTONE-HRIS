@@ -115,9 +115,6 @@ public function showAdditionalFields()
     return view('additional_fields', compact('user'));
 }
 
-
-
-
 public function updateAdditionalFields(Request $request)
 {
     $user = auth()->user();
@@ -161,6 +158,5 @@ public function updateAdditionalFields(Request $request)
 
     return redirect()->route('dashboard')->with('success', 'Additional fields updated successfully');
 }
-
 
 }

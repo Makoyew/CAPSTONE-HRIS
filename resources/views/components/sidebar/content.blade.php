@@ -23,22 +23,33 @@
         :isActive="request()->routeIs('leave-requests.create')"
     >
         <x-slot name="icon">
-            <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            <x-icons.airplane class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
 
+    @php
+        $user = auth()->user();
+    @endphp
+
+    @if ($user && $user->role === 'supervisor')
     <x-sidebar.link
         title="List of Employees"
         href="{{ route('employee-users.index') }}"
         :isActive="request()->routeIs('employee-users.index')"
     >
         <x-slot name="icon">
-            <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            <x-icons.list class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
+    @endif
 
 
 
+    @php
+        $user = auth()->user();
+    @endphp
+
+    @if ($user && $user->role === 'admin')
     <x-sidebar.dropdown
         title="Manage Users"
         :active="Str::startsWith(request()->route()->uri(), 'index')"
@@ -58,20 +69,29 @@
             :active="request()->routeIs('departments.index')"
         />
     </x-sidebar.dropdown>
+    @endif
 
+    @php
+        $user = auth()->user();
+    @endphp
 
-
-
+    @if ($user && $user->role === 'admin' || $user && $user->role === 'supervisor')
     <x-sidebar.link
     title="Leave Management"
     href="{{ route('leave-requests.index') }}"
     :isActive="request()->routeIs('leave-requests.index')"
 >
     <x-slot name="icon">
-        <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+        <x-icons.leave class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
     </x-slot>
     </x-sidebar.link>
+    @endif
 
+    @php
+        $user = auth()->user();
+    @endphp
+
+    @if ($user && $user->role === 'supervisor')
     <x-sidebar.link
         title="Evaluation"
         href="{{ route('evaluations.index') }}"
@@ -81,6 +101,7 @@
             <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
+    @endif
 
     @php
     $user = auth()->user();
@@ -93,7 +114,7 @@
         :isActive="request()->routeIs('logs.index')"
     >
         <x-slot name="icon">
-            <x-icons.dashboard class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
+            <x-icons.records class="flex-shrink-0 w-6 h-6" aria-hidden="true" />
         </x-slot>
     </x-sidebar.link>
     @endif

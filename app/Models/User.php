@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Log;
+use App\Models\ActivityLog;
 
 class User extends Authenticatable
 {
@@ -123,7 +124,11 @@ public function hasEvaluated($evaluator)
     }
 
     public function leaveRequests()
-{
+    {
     return $this->hasMany(LeaveRequest::class);
-}
+    }
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
 }
