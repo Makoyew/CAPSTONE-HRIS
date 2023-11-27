@@ -24,7 +24,7 @@
                         <option value="fiesta">Fiesta Leave</option>
                         <option value="birthday">Birthday Leave</option>
                         <option value="maternity">Maternity Leave</option>
-                        <option value="Paternity">Paternity Leave</option>
+                        <option value="paternity">Paternity Leave</option>
                     </select>
                 </div>
 
