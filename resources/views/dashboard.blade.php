@@ -8,7 +8,6 @@
     </x-slot>
 
     @if(session('success'))
-    <!-- Success Message -->
     <div id="successMessage" class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
         <div class="flex">
             <div class="py-1">
@@ -24,7 +23,6 @@
     @endif
 
     @if(session('error'))
-    <!-- Error Message -->
     <div id="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded relative" role="alert">
         <strong class="font-bold">Access Denied:</strong>
         <span class="block sm:inline">{{ session('error') }}</span>
@@ -45,43 +43,78 @@
             if (successMessage) {
                 setTimeout(function() {
                     successMessage.style.display = 'none';
-                }, 3000); // 3 seconds
+                }, 3000);
             }
 
             if (errorMessage) {
                 setTimeout(function() {
                     errorMessage.style.display = 'none';
-                }, 3000); // 3 seconds
+                }, 3000);
             }
         }
-
-        // Call the hideMessages function when the page loads
         window.addEventListener('load', hideMessages);
     </script>
 
     <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <!-- Total Users Card -->
-        <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-4">
-            <h3 class="text-lg font-semibold mb-2">Total Users</h3>
-            <p class="text-3xl font-bold text-indigo-500">{{ $totalUsers }}</p>
+        <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-6 transition-transform transform hover:scale-105">
+            <div class="flex items-center">
+                <div class="bg-indigo-500 rounded-md p-3">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm-3-8h6"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Total Users</h3>
+                    <p class="text-3xl font-bold text-indigo-500">{{ $totalUsers }}</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Total Accepted Requests Card -->
-        <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-4">
-            <h3 class="text-lg font-semibold mb-2">Total Accepted Requests</h3>
-            <p class="text-3xl font-bold text-green-500">{{ $totalAcceptedRequests }}</p>
+        <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-6 transition-transform transform hover:scale-105">
+            <div class="flex items-center">
+                <div class="bg-green-500 rounded-md p-3">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Total Accepted Requests</h3>
+                    <p class="text-3xl font-bold text-green-500">{{ $totalAcceptedRequests }}</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Total Pending Requests Card -->
-        <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-4">
-            <h3 class="text-lg font-semibold mb-2">Total Pending Requests</h3>
-            <p class="text-3xl font-bold text-yellow-500">{{ $totalPendingRequests }}</p>
+        <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-6 transition-transform transform hover:scale-105">
+            <div class="flex items-center">
+                <div class="bg-yellow-500 rounded-md p-3">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Total Pending Requests</h3>
+                    <p class="text-3xl font-bold text-yellow-500">{{ $totalPendingRequests }}</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Total Rejected Requests Card -->
-        <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-4">
-            <h3 class="text-lg font-semibold mb-2">Total Rejected Requests</h3>
-            <p class="text-3xl font-bold text-red-500">{{ $totalRejectedRequests }}</p>
+        <div class="bg-white rounded-lg shadow-md dark:bg-dark-eval-1 p-6 transition-transform transform hover:scale-105">
+            <div class="flex items-center">
+                <div class="bg-red-500 rounded-md p-3">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <div class="ml-4">
+                    <h3 class="text-lg font-semibold mb-2 text-gray-800">Total Rejected Requests</h3>
+                    <p class="text-3xl font-bold text-red-500">{{ $totalRejectedRequests }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </x-app-layout>

@@ -11,7 +11,7 @@ use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\ChildController;
 use App\Http\Controllers\EmployeeController;
-
+use App\Http\Controllers\EducationalBackgroundController;
 
 
 
@@ -32,46 +32,25 @@ Route::get('/', function () {
     return view('/auth/login');
 });
 
-
-// routes/web.php
-
 Route::middleware('auth')->group(function () {
     Route::post('/additonal_fields', [ChildController::class, 'store'])->name('additional_fields.store');
     Route::delete('/additonal_fields/{id}', [ChildController::class, 'destroy'])->name('additional_fields.destroy');
-
-
 });
-
-// Login Routes
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 });
 
 Route::middleware('auth', 'supervisor')->group(function () {
     Route::get('/employee-users', [EmployeeController::class, 'showEmployeeDepartmentUsers'])->name('employee-users.index');
     Route::delete('/user/delete/{id}', [EmployeeController::class, 'deleteUser'])->middleware('role:admin')->name('user.delete');
-
-
 });
-
-
-
-
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/evaluations', [EvaluationController::class, 'index'])->middleware('role:admin,supervisor')->name('evaluations.index');
     Route::get('/evaluations/form{user_id}', [EvaluationController::class, 'showForm'])->middleware('supervisor')->name('evaluations.form');
     Route::post('/evaluations', [EvaluationController::class, 'submitEvaluation'])->name('evaluations.submit');
-
 });
-
-
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/departments', [DepartmentController::class, 'index'])->name('departments.index');
@@ -85,12 +64,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('/notifications/mark-read', [NotificationController::class, 'markAsRead'])->name('notifications.markRead');
     Route::delete('/notifications/remove/{notification}', [NotificationController::class, 'remove'])->name('notifications.remove');
-
-
-
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/leave-requests', [LeaveRequestController::class, 'index'])->middleware('role:admin,supervisor')->name('leave-requests.index');
@@ -100,26 +74,20 @@ Route::middleware('auth')->group(function () {
     Route::post('/leave-requests/{leaveRequest}/accept', [LeaveRequestController::class, 'accept'])
     ->name('leave-requests.accept');
     Route::delete('/leave-requests/{leaveRequest}', [LeaveRequestController::class, 'destroy'])
-        ->name('leave-requests.destroy');
+    ->name('leave-requests.destroy');
     Route::post('/leave-requests/{leaveRequest}/reject', [LeaveRequestController::class, 'reject'])->name('leave-requests.reject');
     Route::get('leave-requests/filtered/{status}', [LeaveRequestController::class, 'filtered'])->name('leave-requests.filtered');
     Route::get('/leave-requests/filter-by-month/{month}', [LeaveRequestController::class, 'filterByMonth'])
     ->name('leave-requests.filter-by-month');
+    Route::get('/users/{user}/leave-requests/filter-by-month/{month}', [LeaveRequestController::class, 'filterByMonthRecords'])
+    ->name('leave-requests.filter-by-month-record');
     Route::get('/users/{user}/leave-requests', [LeaveRequestController::class, 'showUserLeaveRequests'])->name('users.records');
-
-
-
-
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
 });
 
 Route::middleware('auth',)->group(function () {
@@ -131,48 +99,28 @@ Route::middleware('auth',)->group(function () {
     Route::post('/update-additional-fields', [UserController::class, 'updateAdditionalFields'])->name('update-additional-fields');
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/educational-background', [EducationalBackgroundController::class, 'index'])->name('educational_background');
+    Route::post('/submit-educational-background', [EducationalBackgroundController::class, 'submit'])->name('submit_educational_background');
+});
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
-// Route to store a new user
 Route::post('/users', [RegisteredUserController::class, 'store'])->name('users.store');
 
-// Route to display the user edit form
 Route::get('/users/{user}/edit', [RegisteredUserController::class, 'edit'])->name('users.edit');
 
-
-
-// Route to update a user
 Route::put('/users/{user}', [RegisteredUserController::class, 'update'])->name('users.update');
 
-// Route to delete a user
 Route::delete('/users/{user}', [RegisteredUserController::class, 'destroy'])->name('users.destroy');
 
-// Route to view a user
 Route::get('/users/{user}', [RegisteredUserController::class, 'show'])->name('users.show');
 
-// Route to display a list of users
 Route::get('/users', [RegisteredUserController::class, 'index'])->name('users.index');
 
 Route::get('/logs', [RegisteredUserController::class, 'showLogs'])->name('logs.index');
-
-
-
 });
 
-
-
-// Routes for login and logout
-// routes/web.php
-
-
-
-// The rest of your routes...
-
-
-
-// useless routes
-// Just to demo sidebar dropdown links active states.
 Route::get('/buttons/text', function () {
     return view('buttons-showcase.text');
 })->middleware(['auth'])->name('buttons.text');

@@ -18,9 +18,13 @@
                     <select name="leave_type" id="leave_type" required
                             class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         <option value="" selected disabled>Select Leave Type</option>
-                        <option value="vacation">Vacation</option>
-                        <option value="sick">Sick</option>
-                        <option value="personal">Personal</option>
+                        <option value="vacation">Vacation Leave</option>
+                        <option value="sick">Sick Leave</option>
+                        <option value="personal">Personal Leave</option>
+                        <option value="fiesta">Fiesta Leave</option>
+                        <option value="birthday">Birthday Leave</option>
+                        <option value="maternity">Maternity Leave</option>
+                        <option value="Paternity">Paternity Leave</option>
                     </select>
                 </div>
 

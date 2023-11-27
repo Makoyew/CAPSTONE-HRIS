@@ -28,17 +28,16 @@
     if (successMessage) {
         setTimeout(function() {
             successMessage.style.display = 'none';
-        }, 3000); // 3 seconds
+        }, 3000);
     }
 
     if (errorMessage) {
         setTimeout(function() {
             errorMessage.style.display = 'none';
-        }, 3000); // 3 seconds
+        }, 3000);
     }
 }
 
-// Call the hideMessages function when the page loads
 window.addEventListener('load', hideMessages);
 </script>
 
@@ -80,11 +79,10 @@ window.addEventListener('load', hideMessages);
         </div>
     </div>
 
-
         <script>
             document.getElementById('filterDropdown').addEventListener('change', function() {
                 var selectedOption = this.value;
-                if (selectedOption === "{{ route('leave-requests.filtered', 'pending_supervisor') }}" || selectedOption === "{{ route('leave-requests.filtered', 'pending_admin') }}") {
+                if (selectedOption === "{{ route('leave-requests.filtered', 'pending_supervisor') }}" || selectedOption === "{{ route('leave-requests.filtered', 'recommend_for_approval') }}") {
                     window.location = "{{ route('leave-requests.filtered', 'pending') }}";
                 } else {
                     window.location = selectedOption;

@@ -18,8 +18,9 @@ return new class extends Migration
             $table->date('end_date');
             $table->string('reason');
             $table->string('other_reason');
+            $table->text('rejection_reason')->nullable();
             $table->string('leave_type');
-            $table->enum('status', ['pending_supervisor', 'pending_admin', 'approved', 'rejected', 'ended']);
+            $table->enum('status', ['pending_supervisor', 'recommend_for_approval', 'approved', 'rejected', 'ended']);
             $table->boolean('supervisor_approval')->default(false);
             $table->boolean('admin_approval')->default(false);
             $table->timestamps();

@@ -9,6 +9,10 @@
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+        <!-- Add these links to your HTML file -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.7.0/dist/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyOxNX3PLLzCq3OEVzt3u9u6R56OdFNDz" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.7.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-cC2FQMGuhU7u+04l9eXvAC+xNRngn3CmiL6HAY1RzfuWJ8Uxh6lF7FeF++L+dF1" crossorigin="anonymous"></script>
+
 
         <!-- Styles -->
         <style>
