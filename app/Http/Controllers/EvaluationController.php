@@ -5,13 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Evaluation;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Redirect;
 
 class EvaluationController extends Controller
 {
     public function index()
     {
-        $users = User::all();
-        return view('evaluations.index', compact('users'));
+    // Get the currently authenticated user (supervisor)
+    $supervisor = auth()->user();
+
+    // Retrieve only users in the same department as the supervisor, excluding the supervisor
+    $users = User::where('department_id', $supervisor->department_id)
+        ->where('id', '!=', $supervisor->id) // Exclude the supervisor
+        ->get();
+
+    return view('evaluations.index', compact('users'));
     }
 
     public function showForm($user_id)
