@@ -38,44 +38,72 @@
             </div>
         @endif
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            @foreach($users as $user)
-                <div class="bg-white border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
-                    <div class="p-4">
-                        <div class="flex items-center justify-center mb-4">
-                            @if ($user->profile_picture)
-                                <a href="{{ route('users.show', $user) }}">
-                                    <img src="{{ Storage::url($user->profile_picture) }}"
-                                        alt="{{ $user->name }} Profile Picture"
-                                        class="w-16 h-16 rounded-full object-cover border-4 border-blue-500">
-                                </a>
+        <table class="min-w-full divide-y divide-gray-200">
+            <thead>
+                <tr>
+                    <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Profile Image</th>
+                    <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                    <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                    <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Department</th>
+                    <th class="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Evaluation Action</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+                @foreach($users as $user)
+                    <tr>
+                        <td class="px-6 py-4 text-center whitespace-no-wrap">
+                            <div class="flex items-center justify-center">
+                                <!-- Profile Picture -->
+                                <!-- Adjust the logic based on your actual structure -->
+                                <div class="flex-shrink-0 h-10 w-10">
+                                    @if ($user->profile_picture)
+                                        <img class="h-10 w-10 rounded-full object-cover border-4 border-blue-500" src="{{ Storage::url($user->profile_picture) }}" alt="{{ $user->name }} Profile Picture">
+                                    @else
+                                        <img class="h-10 w-10 rounded-full object-cover border-4 border-blue-500" src="{{ asset('images/default-profile.jpeg') }}" alt="{{ $user->name }} Profile Picture">
+                                    @endif
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center whitespace-no-wrap">
+                            <div class="ml-4">
+                                <div class="text-sm leading-5 font-medium text-gray-900">{{ $user->first_name }} {{$user->middle_name}} {{ $user->surname }}</div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 text-center whitespace-no-wrap">{{ $user->email }}</td>
+                        <td class="px-6 py-4 text-center whitespace-no-wrap">
+                            @if ($user->department)
+                                {{ $user->department->name }}
                             @else
-                                <a href="{{ route('users.show', $user) }}">
-                                    <img src="{{ asset('images/default-profile.jpeg') }}"
-                                        alt="{{ $user->name }} Profile Picture"
-                                        class="w-16 h-16 rounded-full object-cover border-4 border-blue-500">
-                                </a>
+                                Department Not Assigned
                             @endif
-                        </div>
-
-                        <h3 class="text-center text-lg font-semibold mb-2">{{ $user->first_name }} {{$user->middle_name}} {{ $user->surname }}</h3>
-                        <p class="text-center text-gray-600 mb-2">{{ $user->email }}</p>
-                        <p class="text-center text-gray-600">{{ $user->department->name }}</p>
-
-                    </div>
-                    <div class="px-4 pb-4">
-                        @if (!$user->hasEvaluated(auth()->user()))
-                            <div class="flex items-center justify-center">
-                                <a href="{{ route('evaluations.form', ['user_id' => $user->id]) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300 ease-in-out transform hover:scale-105">Evaluate</a>
-                            </div>
-                        @else
-                            <div class="flex items-center justify-center">
-                                <span class="text-gray-500">Already Evaluated</span>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            @endforeach
-        </div>
+                        </td>
+                        <td class="px-6 py-4 text-center whitespace-no-wrap">
+                            @if (!$user->hasEvaluated(auth()->user()))
+                                <!-- Evaluate Button -->
+                                <a href="{{ route('evaluations.form', ['user_id' => $user->id]) }}" class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-4 px-3 rounded-md transition duration-300 ease-in-out transform hover:scale-105">Evaluate</a>
+                            @else
+                                @if ($user->evaluations->isNotEmpty())
+                                @foreach ($user->evaluations as $evaluation)
+                                @if ($evaluation->submitted_at)
+                                    <span class="text-sm text-black block mt-1">
+                                        Submitted on {{ \Carbon\Carbon::parse($evaluation->submitted_at)->format('Y-m-d H:i:s') }}
+                                        <!-- Add a View link or icon here -->
+                                        <a href="{{ route('evaluations.view', ['user_id' => $user->id]) }}" class="text-blue-500 hover:underline ml-2">
+                                            View
+                                        </a>
+                                    </span>
+                                @else
+                                    <span class="text-sm text-gray-300 block mt-1">No submission date available</span>
+                                @endif
+                            @endforeach
+                                @else
+                                    <span class="text-sm text-gray-300 block mt-1">No evaluation data found</span>
+                                @endif
+                            @endif
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </x-app-layout>

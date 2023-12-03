@@ -46,10 +46,11 @@ Route::middleware('auth', 'supervisor')->group(function () {
     Route::delete('/user/delete/{id}', [EmployeeController::class, 'deleteUser'])->middleware('role:admin')->name('user.delete');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'supervisor')->group(function () {
     Route::get('/evaluations', [EvaluationController::class, 'index'])->middleware('role:admin,supervisor')->name('evaluations.index');
-    Route::get('/evaluations/form{user_id}', [EvaluationController::class, 'showForm'])->middleware('supervisor')->name('evaluations.form');
-    Route::post('/evaluations', [EvaluationController::class, 'submitEvaluation'])->name('evaluations.submit');
+    Route::get('/evaluations/form/{user_id}', [EvaluationController::class, 'showForm'])->middleware('supervisor')->name('evaluations.form');
+    Route::get('/evaluations/view/{user_id}', [EvaluationController::class, 'view'])->name('evaluations.view');
+    Route::post('/evaluations/submit', [EvaluationController::class, 'submitEvaluation'])->name('evaluations.submit');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
